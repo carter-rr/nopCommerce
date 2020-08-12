@@ -1867,6 +1867,18 @@ namespace Nop.Web.Controllers
             return View(model);
         }
 
+        [HttpsRequirement]
+        public virtual IActionResult ConfigureMultiFactorAuthProvider(string providerSysName)
+        {
+            if (!_customerService.IsRegistered(_workContext.CurrentCustomer))
+                return Challenge();
+
+            var model = new MultiFactorProviderModel();
+            model = _customerModelFactory.PrepareMultiFactorProviderModel(model, providerSysName);
+
+            return View(model);
+        }
+
         #endregion
 
         #endregion
