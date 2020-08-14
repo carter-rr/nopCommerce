@@ -31,6 +31,10 @@ namespace Nop.Web.Infrastructure
             endpointRouteBuilder.MapControllerRoute("Login", $"{pattern}login/",
                 new { controller = "Customer", action = "Login" });
 
+            // multi-factor authorization digit code page
+            endpointRouteBuilder.MapControllerRoute("MultiFactorAuthorization", "multi-factor-authorization",
+                            new { controller = "Customer", action = "MultiFactorAuthorization" });
+
             //register
             endpointRouteBuilder.MapControllerRoute("Register", $"{pattern}register/",
                 new { controller = "Customer", action = "Register" });
