@@ -511,7 +511,7 @@ namespace Nop.Web.Controllers
         /// <returns>User verification page for Multi-factor authentication. Served by an authentication provider.</returns>
         public virtual IActionResult MultiFactorVerification()
         {
-            if (!_customerSettings.EnableMultiFactorAuthentication)
+            if (!_multiFactorAuthenticationPluginManager.IsActivePlugins())
                 return RedirectToRoute("Login");
 
             var customerMultiFactorAuthenticationInfo = HttpContext.Session.Get<CustomerMultiFactorAuthenticationInfo>(NopCustomerDefaults.CustomerMultiFactorAuthenticationInfo);
@@ -1863,7 +1863,7 @@ namespace Nop.Web.Controllers
         [CheckAccessClosedStore(true)]
         public virtual IActionResult MultiFactorAuthentication()
         {
-            if (!_customerSettings.EnableMultiFactorAuthentication)
+            if (!_multiFactorAuthenticationPluginManager.IsActivePlugins())
             {
                 return RedirectToRoute("CustomerInfo");
             }

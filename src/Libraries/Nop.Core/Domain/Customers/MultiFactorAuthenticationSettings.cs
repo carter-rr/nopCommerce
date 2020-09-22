@@ -21,6 +21,5 @@ namespace Nop.Core.Domain.Customers
         /// Gets or sets system names of active multi-factor authentication methods
         /// </summary>
         public List<string> ActiveAuthenticationMethodSystemNames { get; set; }
-
     }
 }

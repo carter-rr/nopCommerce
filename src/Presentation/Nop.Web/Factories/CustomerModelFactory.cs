@@ -177,6 +177,7 @@ namespace Nop.Web.Factories
                 Accepted = accepted
             };
         }
+
         #endregion
 
         #region Methods
@@ -804,7 +805,7 @@ namespace Nop.Web.Factories
                 });
             }
 
-            if (_customerSettings.EnableMultiFactorAuthentication)
+            if (_multiFactorAuthenticationPluginManager.IsActivePlugins())
             {
                 model.CustomerNavigationItems.Add(new CustomerNavigationItemModel
                 {

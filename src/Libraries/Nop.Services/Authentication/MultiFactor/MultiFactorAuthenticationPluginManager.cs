@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Nop.Core.Domain.Customers;
 using Nop.Services.Customers;
 using Nop.Services.Plugins;
@@ -28,6 +29,17 @@ namespace Nop.Services.Authentication.MultiFactor
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Check is active multi-factor authentication methods
+        /// </summary>
+        /// <param name="customer">Filter by customer; pass null to load all plugins</param>
+        /// <param name="storeId">Filter by store; pass 0 to load all plugins</param>
+        /// <returns>True - if active multi-factor authentication methods</returns>
+        public virtual bool IsActivePlugins(Customer customer = null, int storeId = 0)
+        {
+            return LoadActivePlugins(_multiFactorAuthenticationSettings.ActiveAuthenticationMethodSystemNames, customer, storeId).Any();
+        }
 
         /// <summary>
         /// Load active multi-factor authentication methods
