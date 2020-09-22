@@ -6441,8 +6441,7 @@ namespace Nop.Services.Installation
                 DeleteGuestTaskOlderThanMinutes = 1440,
                 PhoneNumberValidationEnabled = false,
                 PhoneNumberValidationUseRegex = false,
-                PhoneNumberValidationRule = "^[0-9]{1,14}?$",
-                EnableMultiFactorAuthentication = false
+                PhoneNumberValidationRule = "^[0-9]{1,14}?$"
             });
 
             settingService.SaveSetting(new AddressSettings

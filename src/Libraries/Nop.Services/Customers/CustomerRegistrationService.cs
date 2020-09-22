@@ -149,7 +149,7 @@ namespace Nop.Services.Customers
                 return CustomerLoginResults.WrongPassword;
             }
 
-            if (_customerSettings.EnableMultiFactorAuthentication)
+            if (_multiFactorAuthenticationPluginManager.IsActivePlugins())
             {
                 var enabledCustomerMultiFactorAuthentication = _genericAttributeService.GetAttribute<bool>(customer, NopCustomerDefaults.MultiFactorAuthenticationIsEnabledAttribute);
                 if (enabledCustomerMultiFactorAuthentication)
