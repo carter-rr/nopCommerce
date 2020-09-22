@@ -961,7 +961,7 @@ namespace Nop.Web.Factories
         {            
             var customer = _workContext.CurrentCustomer;
             
-            model.IsEnabled = _genericAttributeService.GetAttribute<bool>(customer, NopCustomerDefaults.MultiFactorIsEnabledAttribute);
+            model.IsEnabled = _genericAttributeService.GetAttribute<bool>(customer, NopCustomerDefaults.MultiFactorAuthenticationIsEnabledAttribute);
             
             var multiFactorAuthenticationProviders = _multiFactorAuthenticationPluginManager.LoadActivePlugins(customer, _storeContext.CurrentStore.Id).ToList();            
             foreach (var multiFactorAuthenticationProvider in multiFactorAuthenticationProviders)
@@ -984,7 +984,7 @@ namespace Nop.Web.Factories
         public virtual MultiFactorAuthenticationProviderModel PrepareMultiFactorAuthenticationProviderModel(MultiFactorAuthenticationProviderModel providerModel, string sysName, bool isLogin = false)
         {
             var customer = _workContext.CurrentCustomer;
-            var selectedProvider = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthProviderAttribute);
+            var selectedProvider = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute);
 
             var multiFactorAuthenticationProvider = _multiFactorAuthenticationPluginManager.LoadActivePlugins(customer, _storeContext.CurrentStore.Id)
                     .Where(provider => provider.PluginDescriptor.SystemName == sysName).FirstOrDefault();

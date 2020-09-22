@@ -523,11 +523,11 @@ namespace Nop.Web.Controllers
             if (customer == null)
                 return RedirectToRoute("HomePage");
 
-            var enabledCustomerMultiFactorAuthentication = _genericAttributeService.GetAttribute<bool>(customer, NopCustomerDefaults.MultiFactorIsEnabledAttribute);
+            var enabledCustomerMultiFactorAuthentication = _genericAttributeService.GetAttribute<bool>(customer, NopCustomerDefaults.MultiFactorAuthenticationIsEnabledAttribute);
             if (!enabledCustomerMultiFactorAuthentication)
                 return RedirectToRoute("HomePage");
 
-            var selectedProvider = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthProviderAttribute);
+            var selectedProvider = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute);
 
             var model = new MultiFactorAuthenticationProviderModel();
             model = _customerModelFactory.PrepareMultiFactorAuthenticationProviderModel(model, selectedProvider, true);
@@ -1886,15 +1886,23 @@ namespace Nop.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     //save MultiFactorIsEnabledAttribute
-                    _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.MultiFactorIsEnabledAttribute, model.IsEnabled);
+                    _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.MultiFactorAuthenticationIsEnabledAttribute, model.IsEnabled);
 
                     //save selected multi-factor authentication provider
                     var selectedProvider = ParseSelectedProvider(form);
-                    if (string.IsNullOrEmpty(selectedProvider))
+                    var lastSavedProvider = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute);
+                    if (string.IsNullOrEmpty(selectedProvider) && !string.IsNullOrEmpty(lastSavedProvider))
                     {
-                        selectedProvider = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthProviderAttribute);
+                        selectedProvider = lastSavedProvider;
                     }
-                    _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.SelectedMultiFactorAuthProviderAttribute, selectedProvider);
+
+                    if (selectedProvider != lastSavedProvider)
+                    {
+                        _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute, selectedProvider);
+
+                        //raise change multi-factor authentication provider event       
+                        _eventPublisher.Publish(new CustomerChangeMultiFactorAuthenticationProviderEvent(customer));
+                    }
 
                     return RedirectToRoute("MultiFactorAuthenticationSettings");
                 }

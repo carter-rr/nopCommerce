@@ -151,10 +151,10 @@ namespace Nop.Services.Customers
 
             if (_customerSettings.EnableMultiFactorAuthentication)
             {
-                var enabledCustomerMultiFactorAuthentication = _genericAttributeService.GetAttribute<bool>(customer, NopCustomerDefaults.MultiFactorIsEnabledAttribute);
+                var enabledCustomerMultiFactorAuthentication = _genericAttributeService.GetAttribute<bool>(customer, NopCustomerDefaults.MultiFactorAuthenticationIsEnabledAttribute);
                 if (enabledCustomerMultiFactorAuthentication)
                 {
-                    var selectedProvider = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthProviderAttribute);
+                    var selectedProvider = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute);
                     if (!string.IsNullOrEmpty(selectedProvider))
                     {
                         var method = _multiFactorAuthenticationPluginManager.LoadPluginBySystemName(selectedProvider);
