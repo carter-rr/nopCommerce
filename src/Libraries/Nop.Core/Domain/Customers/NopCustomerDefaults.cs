@@ -273,12 +273,12 @@
         /// <summary>
         /// Gets a name of generic attribute to store the value of 'MultiFactorIsEnabled' 
         /// </summary>
-        public static string MultiFactorIsEnabledAttribute => "MultiFactorIsEnabled";
+        public static string MultiFactorAuthenticationIsEnabledAttribute => "MultiFactorIsEnabled";
 
         /// <summary>
         /// Gets a name of generic attribute to store the value of 'SelectedMultiFactorAuthProvider'
         /// </summary>
-        public static string SelectedMultiFactorAuthProviderAttribute => "SelectedMultiFactorAuthProvider";
+        public static string SelectedMultiFactorAuthenticationProviderAttribute => "SelectedMultiFactorAuthProvider";
 
         /// <summary>
         /// Gets a name of session key
