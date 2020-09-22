@@ -4,16 +4,16 @@ using Nop.Services.Plugins;
 namespace Nop.Services.Authentication.MultiFactor
 {
     /// <summary>
-    /// Represents method for the multifactor authentication
+    /// Represents method for the multi-factor authentication
     /// </summary>
     public partial interface IMultiFactorAuthenticationMethod : IPlugin
     {
         #region Methods
 
         /// <summary>
-        ///  Gets a multifactor authentication type
+        ///  Gets a multi-factor authentication type
         /// </summary>
-        MultiFactorAuthenticationType MultiFactorAuthenticationType { get; }
+        MultiFactorAuthenticationType Type { get; }
 
         /// <summary>
         /// Gets a name of a view component for displaying plugin in public store
@@ -34,7 +34,7 @@ namespace Nop.Services.Authentication.MultiFactor
         /// <summary>
         /// Gets a multi-factor authentication method description that will be displayed on customer info pages in the public store
         /// </summary>
-        string MultiFactorAuthenticationMethodDescription { get; }
+        string Description { get; }
 
         #endregion
     }

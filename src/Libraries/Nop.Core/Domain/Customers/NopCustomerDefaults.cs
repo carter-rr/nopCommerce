@@ -283,7 +283,7 @@
         /// <summary>
         /// Gets a name of session key
         /// </summary>
-        public static string CustomerMFAInfo => "CustomerMFAInfo";
+        public static string CustomerMultiFactorAuthenticationInfo => "CustomerMultiFactorAuthenticationInfo";
 
         #endregion
     }

@@ -4900,10 +4900,10 @@
     <Value>System name</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Authentication.MultiFactorMethods">
-    <Value>Multifactor authentication</Value>
+    <Value>Multi-factor authentication</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Authentication.MultiFactorMethods.BackToList">
-    <Value>back to multifactor authentication method list</Value>
+    <Value>back to multi-factor authentication method list</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Authentication.MultiFactorMethods.Configure">
     <Value>Configure</Value>
@@ -6222,10 +6222,10 @@
   <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.DefaultStoreTimeZone.Hint">
     <Value>The default store time zone used to display dates.</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.EnableMultifactorAuth">
-    <Value>Enable multifactor authentication</Value>
+  <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.EnableMultiFactorAuthentication">
+    <Value>Enable multi-factor authentication</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.EnableMultifactorAuth.Hint">
+  <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.EnableMultiFactorAuthentication.Hint">
     <Value>When enabled, users attempting to access the public store must complete a second step to verify their account.</Value>
   </LocaleResource>  
   <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.EnteringEmailTwice">
@@ -16810,10 +16810,10 @@
     <Value>Manufacturers</Value>
   </LocaleResource>
   <LocaleResource Name="PageTitle.MultiFactorAuthentication">
-    <Value>Multifactor authentication</Value>
+    <Value>Multi-factor authentication</Value>
   </LocaleResource>
-  <LocaleResource Name="PageTitle.MultiFactorAuthorization">
-    <Value>Multifactor authorization</Value>
+  <LocaleResource Name="PageTitle.MultiFactorVerification">
+    <Value>Multi-factor verification</Value>
   </LocaleResource>
   <LocaleResource Name="PageTitle.NewProducts">
     <Value>New Products</Value>
@@ -17092,7 +17092,7 @@
     <Value>Admin area. Manage External Authentication Methods</Value>
   </LocaleResource>
   <LocaleResource Name="Permission.Authentication.ManageMultifactorMethods">
-    <Value>Admin area. Manage Multifactor Authentication Methods</Value>
+    <Value>Admin area. Manage Multi-factor Authentication Methods</Value>
   </LocaleResource>
   <LocaleResource Name="Permission.DisplayPrices">
     <Value>Public store. Display Prices</Value>

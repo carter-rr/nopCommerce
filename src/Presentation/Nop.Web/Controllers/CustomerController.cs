@@ -77,7 +77,7 @@ namespace Nop.Web.Controllers
         private readonly IGiftCardService _giftCardService;
         private readonly ILocalizationService _localizationService;
         private readonly ILogger _logger;
-        private readonly IMultiFactorAuthenticationPluginManager _mfaPluginManager;
+        private readonly IMultiFactorAuthenticationPluginManager _multiFactorAuthenticationPluginManager;
         private readonly INewsLetterSubscriptionService _newsLetterSubscriptionService;
         private readonly IOrderService _orderService;
         private readonly IPictureService _pictureService;
@@ -126,7 +126,7 @@ namespace Nop.Web.Controllers
             IGiftCardService giftCardService,
             ILocalizationService localizationService,
             ILogger logger,
-            IMultiFactorAuthenticationPluginManager mfaPluginManager,
+            IMultiFactorAuthenticationPluginManager multiFactorAuthenticationPluginManager,
             INewsLetterSubscriptionService newsLetterSubscriptionService,
             IOrderService orderService,
             IPictureService pictureService,
@@ -171,7 +171,7 @@ namespace Nop.Web.Controllers
             _giftCardService = giftCardService;
             _localizationService = localizationService;
             _logger = logger;
-            _mfaPluginManager = mfaPluginManager;
+            _multiFactorAuthenticationPluginManager = multiFactorAuthenticationPluginManager;
             _newsLetterSubscriptionService = newsLetterSubscriptionService;
             _orderService = orderService;
             _pictureService = pictureService;
@@ -212,8 +212,8 @@ namespace Nop.Web.Controllers
             if (form == null)
                 throw new ArgumentNullException(nameof(form));
 
-            var mfaProviders = _mfaPluginManager.LoadActivePlugins(_workContext.CurrentCustomer, _storeContext.CurrentStore.Id).ToList();
-            foreach (var provider in mfaProviders)
+            var multiFactorAuthenticationProviders = _multiFactorAuthenticationPluginManager.LoadActivePlugins(_workContext.CurrentCustomer, _storeContext.CurrentStore.Id).ToList();
+            foreach (var provider in multiFactorAuthenticationProviders)
             {
                 var controlId = $"provider_{provider.PluginDescriptor.SystemName}";
 
@@ -466,17 +466,17 @@ namespace Nop.Web.Controllers
 
                             return Redirect(returnUrl);
                         }
-                    case CustomerLoginResults.RequiresMultiFactor:
+                    case CustomerLoginResults.MultiFactorAuthenticationRequired:
                         {
                             var userName = _customerSettings.UsernamesEnabled ? model.Username : model.Email;
-                            var customerMFARequest = new CustomerMFARequest
+                            var customerMultiFactorAuthenticationInfo = new CustomerMultiFactorAuthenticationInfo
                             {
-                                MFAUserName = userName,
-                                MFARememberMe = model.RememberMe,
-                                MFAReturnUrl = returnUrl
+                                UserName = userName,
+                                RememberMe = model.RememberMe,
+                                ReturnUrl = returnUrl
                             };
-                            HttpContext.Session.Set<CustomerMFARequest>(NopCustomerDefaults.CustomerMFAInfo, customerMFARequest);
-                            return RedirectToRoute("MultiFactorAuthorization");
+                            HttpContext.Session.Set<CustomerMultiFactorAuthenticationInfo>(NopCustomerDefaults.CustomerMultiFactorAuthenticationInfo, customerMultiFactorAuthenticationInfo);
+                            return RedirectToRoute("MultiFactorVerification");
                         }
                     case CustomerLoginResults.CustomerNotExist:
                         ModelState.AddModelError("", _localizationService.GetResource("Account.Login.WrongCredentials.CustomerNotExist"));
@@ -508,14 +508,14 @@ namespace Nop.Web.Controllers
         /// <summary>
         /// The entry point for injecting a plugin component of type "MultiFactorAuth"
         /// </summary>
-        /// <returns>User authorization page for MFA authentication. Served by an authentication provider.</returns>
-        public virtual IActionResult MultiFactorAuthorization()
+        /// <returns>User verification page for Multi-factor authentication. Served by an authentication provider.</returns>
+        public virtual IActionResult MultiFactorVerification()
         {
-            if (!_customerSettings.EnableMultifactorAuth)
+            if (!_customerSettings.EnableMultiFactorAuthentication)
                 return RedirectToRoute("Login");
 
-            var customerMFARequest = HttpContext.Session.Get<CustomerMFARequest>(NopCustomerDefaults.CustomerMFAInfo);
-            var userName = customerMFARequest.MFAUserName;
+            var customerMultiFactorAuthenticationInfo = HttpContext.Session.Get<CustomerMultiFactorAuthenticationInfo>(NopCustomerDefaults.CustomerMultiFactorAuthenticationInfo);
+            var userName = customerMultiFactorAuthenticationInfo.UserName;
             if (string.IsNullOrEmpty(userName))
                 return RedirectToRoute("HomePage");
 
@@ -523,14 +523,14 @@ namespace Nop.Web.Controllers
             if (customer == null)
                 return RedirectToRoute("HomePage");
 
-            var enabledMFACustomer = _genericAttributeService.GetAttribute<bool>(customer, NopCustomerDefaults.MultiFactorIsEnabledAttribute);
-            if (!enabledMFACustomer)
+            var enabledCustomerMultiFactorAuthentication = _genericAttributeService.GetAttribute<bool>(customer, NopCustomerDefaults.MultiFactorIsEnabledAttribute);
+            if (!enabledCustomerMultiFactorAuthentication)
                 return RedirectToRoute("HomePage");
 
             var selectedProvider = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthProviderAttribute);
 
-            var model = new MultiFactorProviderModel();
-            model = _customerModelFactory.PrepareMultiFactorProviderModel(model, selectedProvider, true);
+            var model = new MultiFactorAuthenticationProviderModel();
+            model = _customerModelFactory.PrepareMultiFactorAuthenticationProviderModel(model, selectedProvider, true);
 
             return View(model);
         }        
@@ -1857,13 +1857,13 @@ namespace Nop.Web.Controllers
 
         #endregion
 
-        #region Multifactor Authentication
+        #region Multi-factor Authentication
 
         //available even when a store is closed
         [CheckAccessClosedStore(true)]
         public virtual IActionResult MultiFactorAuthentication()
         {
-            if (!_customerSettings.EnableMultifactorAuth)
+            if (!_customerSettings.EnableMultiFactorAuthentication)
             {
                 return RedirectToRoute("CustomerInfo");
             }
@@ -1885,10 +1885,10 @@ namespace Nop.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //save mfa enabled
+                    //save MultiFactorIsEnabledAttribute
                     _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.MultiFactorIsEnabledAttribute, model.IsEnabled);
 
-                    //save selected mfa provider
+                    //save selected multi-factor authentication provider
                     var selectedProvider = ParseSelectedProvider(form);
                     if (string.IsNullOrEmpty(selectedProvider))
                     {
@@ -1909,13 +1909,13 @@ namespace Nop.Web.Controllers
             return View(model);
         }
 
-        public virtual IActionResult ConfigureMultiFactorAuthProvider(string providerSysName)
+        public virtual IActionResult ConfigureMultiFactorAuthenticationProvider(string providerSysName)
         {
             if (!_customerService.IsRegistered(_workContext.CurrentCustomer))
                 return Challenge();
 
-            var model = new MultiFactorProviderModel();
-            model = _customerModelFactory.PrepareMultiFactorProviderModel(model, providerSysName);
+            var model = new MultiFactorAuthenticationProviderModel();
+            model = _customerModelFactory.PrepareMultiFactorAuthenticationProviderModel(model, providerSysName);
 
             return View(model);
         }

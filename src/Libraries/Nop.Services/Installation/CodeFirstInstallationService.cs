@@ -6442,7 +6442,7 @@ namespace Nop.Services.Installation
                 PhoneNumberValidationEnabled = false,
                 PhoneNumberValidationUseRegex = false,
                 PhoneNumberValidationRule = "^[0-9]{1,14}?$",
-                EnableMultifactorAuth = false
+                EnableMultiFactorAuthentication = false
             });
 
             settingService.SaveSetting(new AddressSettings

@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Nop.Services.Customers
 {
     /// <summary>
-    /// Customer MFA request
+    /// Customer multi-factor authentication info
     /// </summary>
-    public partial class CustomerMFARequest
+    public partial class CustomerMultiFactorAuthenticationInfo
     {
-        public CustomerMFARequest()
+        public CustomerMultiFactorAuthenticationInfo()
         {
             CustomValues = new Dictionary<string, object>();
         }
-        public string MFAUserName { get; set; }
+        public string UserName { get; set; }
 
-        public bool MFARememberMe { get; set; }
+        public bool RememberMe { get; set; }
 
-        public string MFAReturnUrl { get; set; }
+        public string ReturnUrl { get; set; }
 
         /// <summary>
         /// You can store any custom value in this property

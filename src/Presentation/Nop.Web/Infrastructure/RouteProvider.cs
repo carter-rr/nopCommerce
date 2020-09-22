@@ -31,9 +31,9 @@ namespace Nop.Web.Infrastructure
             endpointRouteBuilder.MapControllerRoute("Login", $"{pattern}login/",
                 new { controller = "Customer", action = "Login" });
 
-            // multi-factor authorization digit code page
-            endpointRouteBuilder.MapControllerRoute("MultiFactorAuthorization", "multi-factor-authorization",
-                            new { controller = "Customer", action = "MultiFactorAuthorization" });
+            // multi-factor verification digit code page
+            endpointRouteBuilder.MapControllerRoute("MultiFactorVerification", "multi-factor-verification",
+                            new { controller = "Customer", action = "MultiFactorVerification" });
 
             //register
             endpointRouteBuilder.MapControllerRoute("Register", $"{pattern}register/",
@@ -308,8 +308,8 @@ namespace Nop.Web.Infrastructure
             endpointRouteBuilder.MapControllerRoute("CustomerAddressAdd", $"{pattern}customer/addressadd",
                 new { controller = "Customer", action = "AddressAdd" });
 
-            endpointRouteBuilder.MapControllerRoute("CustomerMFAProviderConfig", $"{pattern}customer/providerconfig",
-                new { controller = "Customer", action = "ConfigureMultiFactorAuthProvider" });
+            endpointRouteBuilder.MapControllerRoute("CustomerMultiFactorAuthenticationProviderConfig", $"{pattern}customer/providerconfig",
+                new { controller = "Customer", action = "ConfigureMultiFactorAuthenticationProvider" });
 
             //customer profile page
             endpointRouteBuilder.MapControllerRoute("CustomerProfile",
@@ -383,7 +383,7 @@ namespace Nop.Web.Infrastructure
             endpointRouteBuilder.MapControllerRoute("CheckGiftCardBalance", $"{pattern}customer/checkgiftcardbalance",
                 new { controller = "Customer", action = "CheckGiftCardBalance" });
 
-            //customer multifactor authentication settings 
+            //customer multi-factor authentication settings 
             endpointRouteBuilder.MapControllerRoute("MultiFactorAuthenticationSettings", $"{pattern}customer/multifactorauthentication",
                 new { controller = "Customer", action = "MultiFactorAuthentication" });
 

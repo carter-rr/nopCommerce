@@ -15,7 +15,7 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Infrastructure
             builder.RegisterType<GoogleAuthenticatorService>().AsSelf().InstancePerLifetimeScope();
 
             //register custom factories
-            builder.RegisterType<AuthorizationModelFactory>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<AuthenticationModelFactory>().AsSelf().InstancePerLifetimeScope();
         }
 
         public int Order => 1;

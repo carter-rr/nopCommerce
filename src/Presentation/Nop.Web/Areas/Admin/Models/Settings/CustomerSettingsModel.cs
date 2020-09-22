@@ -218,8 +218,8 @@ namespace Nop.Web.Areas.Admin.Models.Settings
         [NopResourceDisplayName("Admin.Configuration.Settings.CustomerUser.AcceptPrivacyPolicyEnabled")]
         public bool AcceptPrivacyPolicyEnabled { get; set; }
 
-        [NopResourceDisplayName("Admin.Configuration.Settings.CustomerUser.EnableMultifactorAuth")]
-        public bool EnableMultifactorAuth { get; set; }
+        [NopResourceDisplayName("Admin.Configuration.Settings.CustomerUser.EnableMultiFactorAuthentication")]
+        public bool EnableMultiFactorAuthentication { get; set; }
 
         #endregion
     }

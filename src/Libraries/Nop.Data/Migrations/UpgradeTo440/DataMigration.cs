@@ -82,10 +82,10 @@ namespace Nop.Data.Migrations.UpgradeTo440
             //<MFA #475>
             if (!_dataProvider.GetTable<PermissionRecord>().Any(pr => string.Compare(pr.SystemName, "ManageMultifactorAuthenticationMethods", true) == 0))
             {
-                var multifactorAuthenticationPermission = _dataProvider.InsertEntity(
+                var multiFactorAuthenticationPermission = _dataProvider.InsertEntity(
                     new PermissionRecord
                     {
-                        Name = "Admin area. Manage Multifactor Authentication Methods",
+                        Name = "Admin area. Manage Multi-factor Authentication Methods",
                         SystemName = "ManageMultifactorAuthenticationMethods",
                         Category = "Configuration"
                     }
@@ -100,7 +100,7 @@ namespace Nop.Data.Migrations.UpgradeTo440
                     new PermissionRecordCustomerRoleMapping
                     {
                         CustomerRoleId = adminRole.Id,
-                        PermissionRecordId = multifactorAuthenticationPermission.Id
+                        PermissionRecordId = multiFactorAuthenticationPermission.Id
                     }
                 );
             }

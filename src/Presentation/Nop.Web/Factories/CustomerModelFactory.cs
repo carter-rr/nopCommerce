@@ -59,7 +59,7 @@ namespace Nop.Web.Factories
         private readonly IGdprService _gdprService;
         private readonly IGenericAttributeService _genericAttributeService;
         private readonly ILocalizationService _localizationService;
-        private readonly IMultiFactorAuthenticationPluginManager _mfaPluginManager;
+        private readonly IMultiFactorAuthenticationPluginManager _multiFactorAuthenticationPluginManager;
         private readonly INewsLetterSubscriptionService _newsLetterSubscriptionService;
         private readonly IOrderService _orderService;
         private readonly IPictureService _pictureService;
@@ -101,7 +101,7 @@ namespace Nop.Web.Factories
             IGdprService gdprService,
             IGenericAttributeService genericAttributeService,
             ILocalizationService localizationService,
-            IMultiFactorAuthenticationPluginManager mfaPluginManager,
+            IMultiFactorAuthenticationPluginManager multiFactorAuthenticationPluginManager,
             INewsLetterSubscriptionService newsLetterSubscriptionService,
             IOrderService orderService,
             IPictureService pictureService,
@@ -139,7 +139,7 @@ namespace Nop.Web.Factories
             _gdprService = gdprService;
             _genericAttributeService = genericAttributeService;
             _localizationService = localizationService;
-            _mfaPluginManager = mfaPluginManager;
+            _multiFactorAuthenticationPluginManager = multiFactorAuthenticationPluginManager;
             _newsLetterSubscriptionService = newsLetterSubscriptionService;
             _orderService = orderService;
             _pictureService = pictureService;
@@ -804,7 +804,7 @@ namespace Nop.Web.Factories
                 });
             }
 
-            if (_customerSettings.EnableMultifactorAuth)
+            if (_customerSettings.EnableMultiFactorAuthentication)
             {
                 model.CustomerNavigationItems.Add(new CustomerNavigationItemModel
                 {
@@ -953,22 +953,22 @@ namespace Nop.Web.Factories
         }
 
         /// <summary>
-        /// Prepare the multifactor authentication model
+        /// Prepare the multi-factor authentication model
         /// </summary>
         /// <param name="model">Multi-factor authentication model</param>
-        /// <returns>Multifactor authentication model</returns>
+        /// <returns>Multi-factor authentication model</returns>
         public virtual MultiFactorAuthenticationModel PrepareMultiFactorAuthenticationModel(MultiFactorAuthenticationModel model)
         {            
             var customer = _workContext.CurrentCustomer;
             
             model.IsEnabled = _genericAttributeService.GetAttribute<bool>(customer, NopCustomerDefaults.MultiFactorIsEnabledAttribute);
             
-            var mfaProviders = _mfaPluginManager.LoadActivePlugins(customer, _storeContext.CurrentStore.Id).ToList();            
-            foreach (var mfaProvider in mfaProviders)
+            var multiFactorAuthenticationProviders = _multiFactorAuthenticationPluginManager.LoadActivePlugins(customer, _storeContext.CurrentStore.Id).ToList();            
+            foreach (var multiFactorAuthenticationProvider in multiFactorAuthenticationProviders)
             {
-                var providerModel = new MultiFactorProviderModel();
-                var sysName = mfaProvider.PluginDescriptor.SystemName;
-                providerModel = PrepareMultiFactorProviderModel(providerModel, sysName);                
+                var providerModel = new MultiFactorAuthenticationProviderModel();
+                var sysName = multiFactorAuthenticationProvider.PluginDescriptor.SystemName;
+                providerModel = PrepareMultiFactorAuthenticationProviderModel(providerModel, sysName);                
                 model.Providers.Add(providerModel);
             }
 
@@ -976,24 +976,24 @@ namespace Nop.Web.Factories
         }
 
         /// <summary>
-        /// Prepare the multifactor provider model
+        /// Prepare the multi-factor authentication provider model
         /// </summary>
-        /// <param name="providerModel">Multi-factor provider model</param>
-        /// <param name="sysName">Multi-factor provider system name</param>
-        /// <returns>Multifactor provider model</returns>
-        public virtual MultiFactorProviderModel PrepareMultiFactorProviderModel(MultiFactorProviderModel providerModel, string sysName, bool isLogin = false)
+        /// <param name="providerModel">Multi-factor authentication provider model</param>
+        /// <param name="sysName">Multi-factor authentication provider system name</param>
+        /// <returns>Multi-factor authentication model</returns>
+        public virtual MultiFactorAuthenticationProviderModel PrepareMultiFactorAuthenticationProviderModel(MultiFactorAuthenticationProviderModel providerModel, string sysName, bool isLogin = false)
         {
             var customer = _workContext.CurrentCustomer;
             var selectedProvider = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthProviderAttribute);
 
-            var mfaProvider = _mfaPluginManager.LoadActivePlugins(customer, _storeContext.CurrentStore.Id)
+            var multiFactorAuthenticationProvider = _multiFactorAuthenticationPluginManager.LoadActivePlugins(customer, _storeContext.CurrentStore.Id)
                     .Where(provider => provider.PluginDescriptor.SystemName == sysName).FirstOrDefault();
 
-            providerModel.Name = _localizationService.GetLocalizedFriendlyName(mfaProvider, _workContext.WorkingLanguage.Id);
+            providerModel.Name = _localizationService.GetLocalizedFriendlyName(multiFactorAuthenticationProvider, _workContext.WorkingLanguage.Id);
             providerModel.SystemName = sysName;
-            providerModel.Description = mfaProvider.MultiFactorAuthenticationMethodDescription;
-            providerModel.LogoUrl = _mfaPluginManager.GetPluginLogoUrl(mfaProvider);
-            providerModel.ViewComponentName = isLogin ? mfaProvider.GetLoginViewComponentName(): mfaProvider.GetPublicViewComponentName();
+            providerModel.Description = multiFactorAuthenticationProvider.Description;
+            providerModel.LogoUrl = _multiFactorAuthenticationPluginManager.GetPluginLogoUrl(multiFactorAuthenticationProvider);
+            providerModel.ViewComponentName = isLogin ? multiFactorAuthenticationProvider.GetLoginViewComponentName(): multiFactorAuthenticationProvider.GetPublicViewComponentName();
             providerModel.Selected = sysName == selectedProvider;
 
             return providerModel;
