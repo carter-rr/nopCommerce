@@ -9,19 +9,19 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Components
     /// Represents view component for setting GoogleAuthenticator
     /// </summary>
     [ViewComponent(Name = GoogleAuthenticatorDefaults.VIEW_COMPONENT_NAME)]
-    public class GAAuthorizationViewComponent : NopViewComponent
+    public class GAAuthenticationViewComponent : NopViewComponent
     {
         #region Fields
 
-        private readonly AuthorizationModelFactory _authorizationModelFactory;
+        private readonly AuthenticationModelFactory _authenticationModelFactory;
 
         #endregion
 
         #region Ctor
 
-        public GAAuthorizationViewComponent(AuthorizationModelFactory authorizationModelFactory)
+        public GAAuthenticationViewComponent(AuthenticationModelFactory authenticationModelFactory)
         {
-            _authorizationModelFactory = authorizationModelFactory;
+            _authenticationModelFactory = authenticationModelFactory;
         }
 
         #endregion
@@ -37,9 +37,9 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Components
         public IViewComponentResult Invoke(string widgetZone, object additionalData)
         {
             var model = new AuthModel();
-            model = _authorizationModelFactory.PrepareAuthModel(model);
+            model = _authenticationModelFactory.PrepareAuthModel(model);
 
-            return View("~/Plugins/MultiFactorAuth.GoogleAuthenticator/Views/Customer/GAAuthorization.cshtml", model);
+            return View("~/Plugins/MultiFactorAuth.GoogleAuthenticator/Views/Customer/GAAuthentication.cshtml", model);
         }
 
         #endregion

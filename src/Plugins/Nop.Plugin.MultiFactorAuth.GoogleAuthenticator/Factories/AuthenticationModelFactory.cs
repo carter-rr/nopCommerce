@@ -5,7 +5,7 @@ using Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Services;
 
 namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Factories
 {
-    public class AuthorizationModelFactory
+    public class AuthenticationModelFactory
     {
         #region Fields
 
@@ -17,7 +17,7 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Factories
 
         #region Ctor
 
-        public AuthorizationModelFactory(IStoreContext storeContext,
+        public AuthenticationModelFactory(IStoreContext storeContext,
             GoogleAuthenticatorService googleAuthenticatorService,
             IWorkContext workContext)
         {

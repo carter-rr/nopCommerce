@@ -240,7 +240,7 @@ namespace Nop.Web.Areas.Admin.Infrastructure.Mapper
         }
 
         /// <summary>
-        /// Create multifactor authentication maps 
+        /// Create multi-factor authentication maps 
         /// </summary>
         protected virtual void CreateMultiFactorAuthenticationMaps()
         {

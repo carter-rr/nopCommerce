@@ -41,8 +41,8 @@
         LockedOut = 7,
 
         /// <summary>
-        /// Requires MFA authorization
+        /// Requires multi-factor authentication
         /// </summary>
-        RequiresMultiFactor = 8
+        MultiFactorAuthenticationRequired = 8
     }
 }

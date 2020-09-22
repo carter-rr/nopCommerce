@@ -4,7 +4,7 @@ using Nop.Core.Configuration;
 namespace Nop.Core.Domain.Customers
 {
     /// <summary>
-    /// Multifactor authentication settings
+    /// Multi-factor authentication settings
     /// </summary>
     public class MultiFactorAuthenticationSettings : ISettings
     {
@@ -18,7 +18,7 @@ namespace Nop.Core.Domain.Customers
         #endregion
 
         /// <summary>
-        /// Gets or sets system names of active multifactor authentication methods
+        /// Gets or sets system names of active multi-factor authentication methods
         /// </summary>
         public List<string> ActiveAuthenticationMethodSystemNames { get; set; }
 

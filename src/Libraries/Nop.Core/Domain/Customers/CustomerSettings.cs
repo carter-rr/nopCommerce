@@ -238,9 +238,9 @@ namespace Nop.Core.Domain.Customers
         public int DeleteGuestTaskOlderThanMinutes { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether multi factor authentication
+        /// Gets or sets a value indicating whether multi-factor authentication
         /// </summary>
-        public bool EnableMultifactorAuth { get; set; }
+        public bool EnableMultiFactorAuthentication { get; set; }
 
         #region Form fields
 

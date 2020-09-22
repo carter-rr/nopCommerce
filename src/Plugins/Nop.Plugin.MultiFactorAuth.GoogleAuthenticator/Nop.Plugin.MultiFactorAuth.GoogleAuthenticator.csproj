@@ -21,7 +21,7 @@
     <None Remove="logo.png" />
 	  <None Remove="plugin.json" />
     <None Remove="Views\Configure.cshtml" />
-    <None Remove="Views\Customer\GAAuthorization.cshtml" />
+    <None Remove="Views\Customer\GAAuthentication.cshtml" />
     <None Remove="Views\Customer\GAVefification.cshtml" />
     <None Remove="Views\_ViewImports.cshtml" />
   </ItemGroup>
@@ -36,7 +36,7 @@
     <Content Include="Views\Customer\GAVefification.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Customer\GAAuthorization.cshtml">
+    <Content Include="Views\Customer\GAAuthentication.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Configure.cshtml">

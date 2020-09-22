@@ -212,21 +212,21 @@ namespace Nop.Web.Framework.Migrations.UpgradeTo440
                 ["Admin.System.Warnings.PluginNotEnabled.AutoFixAndRestart"] = "Uninstall and delete all not used plugins automatically (site will be restarted)",
                 //<MFA #475>
                 ["Admin.Configuration.Authentication"] = "Authentication",
-                ["Admin.Configuration.Authentication.MultiFactorMethods"] = "Multifactor authentication",
-                ["Admin.Configuration.Authentication.MultiFactorMethods.BackToList"] = "back to multifactor authentication method list",
+                ["Admin.Configuration.Authentication.MultiFactorMethods"] = "Multi-factor authentication",
+                ["Admin.Configuration.Authentication.MultiFactorMethods.BackToList"] = "back to multi-factor authentication method list",
                 ["Admin.Configuration.Authentication.MultiFactorMethods.Configure"] = "Configure",
                 ["Admin.Configuration.Authentication.MultiFactorMethods.Fields.DisplayOrder"] = "Display order",
                 ["Admin.Configuration.Authentication.MultiFactorMethods.Fields.FriendlyName"] = "Friendly name",
                 ["Admin.Configuration.Authentication.MultiFactorMethods.Fields.IsActive"] = "Is active",
                 ["Admin.Configuration.Authentication.MultiFactorMethods.Fields.SystemName"] = "System name",
 
-                ["Permission.Authentication.ManageMultifactorMethods"] = "Admin area. Manage Multifactor Authentication Methods",
+                ["Permission.Authentication.ManageMultifactorMethods"] = "Admin area. Manage Multi-factor Authentication Methods",
 
-                ["Admin.Configuration.Settings.CustomerUser.EnableMultifactorAuth"] = "Enable multifactor authentication",
-                ["Admin.Configuration.Settings.CustomerUser.EnableMultifactorAuth.Hint"] = "When enabled, users attempting to access the public store must complete a second step to verify their account.",
+                ["Admin.Configuration.Settings.CustomerUser.EnableMultiFactorAuthentication"] = "Enable multi-factor authentication",
+                ["Admin.Configuration.Settings.CustomerUser.EnableMultiFactorAuthentication.Hint"] = "When enabled, users attempting to access the public store must complete a second step to verify their account.",
                 
-                ["PageTitle.MultiFactorAuthentication"] = "Multifactor authentication",
-                ["PageTitle.MultiFactorAuthorization"] = "Multifactor authorization",
+                ["PageTitle.MultiFactorAuthentication"] = "Multi-factor authentication",
+                ["PageTitle.MultiFactorVerification"] = "Multi-factor verification",
                 ["Account.MultiFactorAuthentication.Fields.IsEnabled"] = "Is enabled",
                 ["Account.MultiFactorAuthentication.Settings"] = "Settings",
                 ["Account.MultiFactorAuthentication.Providers"] = "Authentication providers",

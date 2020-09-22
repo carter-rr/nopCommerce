@@ -85,7 +85,7 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Controllers
             else
             {
                 _notificationService.ErrorNotification(_localizationService.GetResource("Plugins.MultiFactorAuth.GoogleAuthenticator.Token.Unsuccessful"));
-                return RedirectToRoute("CustomerMFAProviderConfig", new { providerSysName = GoogleAuthenticatorDefaults.SystemName });
+                return RedirectToRoute("CustomerMultiFactorAuthenticationProviderConfig", new { providerSysName = GoogleAuthenticatorDefaults.SystemName });
             }
             
             return RedirectToRoute("MultiFactorAuthenticationSettings");
@@ -94,10 +94,10 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Controllers
         [HttpPost]
         public IActionResult VerifyGoogleAuthenticator(TokenModel model)
         {
-            var customerMFARequest = HttpContext.Session.Get<CustomerMFARequest>(NopCustomerDefaults.CustomerMFAInfo);
-            var username = customerMFARequest.MFAUserName;
-            var returnUrl = customerMFARequest.MFAReturnUrl;
-            var isPersist = customerMFARequest.MFARememberMe;
+            var customerMultiFactorAuthenticationInfo = HttpContext.Session.Get<CustomerMultiFactorAuthenticationInfo>(NopCustomerDefaults.CustomerMultiFactorAuthenticationInfo);
+            var username = customerMultiFactorAuthenticationInfo.UserName;
+            var returnUrl = customerMultiFactorAuthenticationInfo.ReturnUrl;
+            var isPersist = customerMultiFactorAuthenticationInfo.RememberMe;
 
             var customer = _customerSettings.UsernamesEnabled ? _customerService.GetCustomerByUsername(username) : _customerService.GetCustomerByEmail(username);
             if (customer == null)
@@ -133,7 +133,7 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Controllers
                 }
             }
 
-            return RedirectToRoute("MultiFactorAuthorization");
+            return RedirectToRoute("MultiFactorVerification");
         }
 
         #endregion

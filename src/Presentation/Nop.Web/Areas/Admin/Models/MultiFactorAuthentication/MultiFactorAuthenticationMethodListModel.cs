@@ -3,7 +3,7 @@
 namespace Nop.Web.Areas.Admin.Models.MultiFactorAuthentication
 {
     /// <summary>
-    /// Represents an multifactor authentication method list model
+    /// Represents an multi-factor authentication method list model
     /// </summary>
     public partial class MultiFactorAuthenticationMethodListModel : BasePagedListModel<MultiFactorAuthenticationMethodModel>
     {

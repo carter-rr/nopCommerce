@@ -122,19 +122,19 @@ namespace Nop.Web.Factories
         CheckGiftCardBalanceModel PrepareCheckGiftCardBalanceModel();
 
         /// <summary>
-        /// Prepare the multifactor authentication model
+        /// Prepare the multi-factor authentication model
         /// </summary>
         /// <param name="model">Multi-factor authentication model</param>
-        /// <returns>Multifactor authentication model</returns>
+        /// <returns>Multi-factor authentication model</returns>
         MultiFactorAuthenticationModel PrepareMultiFactorAuthenticationModel(MultiFactorAuthenticationModel model);
 
         /// <summary>
-        /// Prepare the multifactor provider model
+        /// Prepare the multi-factor provider model
         /// </summary>
         /// <param name="providerModel">Multi-factor provider model</param>
         /// <param name="sysName">Multi-factor provider system name</param>
         /// <param name="isLogin">Is login page</param>
-        /// <returns>Multifactor provider model</returns>
-        MultiFactorProviderModel PrepareMultiFactorProviderModel(MultiFactorProviderModel providerModel, string sysName, bool isLogin = false);
+        /// <returns>Multi-factor authentication model</returns>
+        MultiFactorAuthenticationProviderModel PrepareMultiFactorAuthenticationProviderModel(MultiFactorAuthenticationProviderModel providerModel, string sysName, bool isLogin = false);
     }
 }

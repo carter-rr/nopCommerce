@@ -8,7 +8,7 @@ using Nop.Web.Framework.Models.Extensions;
 namespace Nop.Web.Areas.Admin.Factories
 {
     /// <summary>
-    /// Represents the multifactor authentication method model factory implementation
+    /// Represents the multi-factor authentication method model factory implementation
     /// </summary>
     public partial class MultiFactorAuthenticationMethodModelFactory : IMultiFactorAuthenticationMethodModelFactory
     {
@@ -30,10 +30,10 @@ namespace Nop.Web.Areas.Admin.Factories
         #region Methods
 
         /// <summary>
-        /// Prepare multifactor authentication method search model
+        /// Prepare multi-factor authentication method search model
         /// </summary>
-        /// <param name="searchModel">Multifactor authentication method search model</param>
-        /// <returns>Multifactor authentication method search model</returns>
+        /// <param name="searchModel">Multi-factor authentication method search model</param>
+        /// <returns>Multi-factor authentication method search model</returns>
         public virtual MultiFactorAuthenticationMethodSearchModel PrepareMultiFactorAuthenticationMethodSearchModel(
             MultiFactorAuthenticationMethodSearchModel searchModel)
         {
@@ -47,17 +47,17 @@ namespace Nop.Web.Areas.Admin.Factories
         }
 
         /// <summary>
-        /// Prepare paged multifactor authentication method list model
+        /// Prepare paged multi-factor authentication method list model
         /// </summary>
-        /// <param name="searchModel">Multifactor authentication method search model</param>
-        /// <returns>Multifactor authentication method list model</returns>
+        /// <param name="searchModel">Multi-factor authentication method search model</param>
+        /// <returns>Multi-factor authentication method list model</returns>
         public virtual MultiFactorAuthenticationMethodListModel PrepareMultiFactorAuthenticationMethodListModel(
             MultiFactorAuthenticationMethodSearchModel searchModel)
         {
             if (searchModel == null)
                 throw new ArgumentNullException(nameof(searchModel));
 
-            //get multifactor authentication methods
+            //get multi-factor authentication methods
             var multiFactorAuthenticationMethods = _multiFactorAuthenticationPluginManager.LoadAllPlugins().ToPagedList(searchModel);
 
             //prepare grid model
