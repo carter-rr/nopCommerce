@@ -21,10 +21,10 @@ namespace Nop.Services.Authentication.MultiFactor
         string GetPublicViewComponentName();
 
         /// <summary>
-        /// Gets a name of a view component for displaying plugin in login page
+        /// Gets a name of a view component for displaying verification page
         /// </summary>
         /// <returns>View component name</returns>
-        string GetLoginViewComponentName();
+        string GetVerificationViewComponentName();
 
         #endregion
 
