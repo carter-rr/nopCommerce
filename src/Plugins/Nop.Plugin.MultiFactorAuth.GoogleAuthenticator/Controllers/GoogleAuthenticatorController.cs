@@ -31,7 +31,6 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Controllers
         private readonly INotificationService _notificationService;
         private readonly IPermissionService _permissionService;
         private readonly ISettingService _settingService;
-        private readonly IStoreContext _storeContext;
         private readonly IWorkContext _workContext;
 
 
@@ -46,7 +45,6 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Controllers
             INotificationService notificationService,
             IPermissionService permissionService,
             ISettingService settingService,
-            IStoreContext storeContext,
             IWorkContext workContext
             )
         {
@@ -57,7 +55,6 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Controllers
             _notificationService = notificationService;
             _permissionService = permissionService;
             _settingService = settingService;
-            _storeContext = storeContext;
             _workContext = workContext;
         }
 
@@ -91,16 +88,9 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Controllers
             if (!ModelState.IsValid)
                 return Configure();
 
-            //load settings for a chosen store scope
-            var storeScope = _storeContext.ActiveStoreScopeConfiguration;
-            var settings = _settingService.LoadSetting<GoogleAuthenticatorSettings>(storeScope);
-
             //set new settings values
-            settings.QRPixelsPerModule = model.QRPixelsPerModule;
-
-            //save settings
-            _settingService.SaveSettingOverridablePerStore(settings, setting => setting.QRPixelsPerModule, true, storeScope, false);
-            _settingService.ClearCache();
+            _googleAuthenticatorSettings.QRPixelsPerModule = model.QRPixelsPerModule;
+            _settingService.SaveSetting(_googleAuthenticatorSettings);
 
             _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
 
@@ -123,8 +113,7 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Controllers
                 {
                     Id = configuration.Id,
                     Customer = configuration.Customer,
-                    SecretKey = configuration.SecretKey,
-                    StoreId = configuration.StoreId
+                    SecretKey = configuration.SecretKey
                 });
             });
 

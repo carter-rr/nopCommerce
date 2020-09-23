@@ -113,7 +113,7 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Services
                 return null;
 
             var query = _repository.Table;
-            return query.Where(record => record.Customer == email && record.StoreId == _storeContext.CurrentStore.Id).FirstOrDefault();
+            return query.Where(record => record.Customer == email).FirstOrDefault();
         }
 
         #endregion
@@ -157,7 +157,6 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Services
             {
                 Customer = customerEmail,
                 SecretKey = key,
-                StoreId  = _storeContext.CurrentStore.Id
             };
             InsertConfiguration(account);
 
