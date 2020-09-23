@@ -83,7 +83,6 @@ namespace Nop.Web.Controllers
         private readonly IPictureService _pictureService;
         private readonly IPriceFormatter _priceFormatter;
         private readonly IProductService _productService;
-        private readonly IShoppingCartService _shoppingCartService;
         private readonly IStateProvinceService _stateProvinceService;
         private readonly IStoreContext _storeContext;
         private readonly ITaxService _taxService;
@@ -132,7 +131,6 @@ namespace Nop.Web.Controllers
             IPictureService pictureService,
             IPriceFormatter priceFormatter,
             IProductService productService,
-            IShoppingCartService shoppingCartService,
             IStateProvinceService stateProvinceService,
             IStoreContext storeContext,
             ITaxService taxService,
@@ -177,7 +175,6 @@ namespace Nop.Web.Controllers
             _pictureService = pictureService;
             _priceFormatter = priceFormatter;
             _productService = productService;
-            _shoppingCartService = shoppingCartService;
             _stateProvinceService = stateProvinceService;
             _storeContext = storeContext;
             _taxService = taxService;
@@ -448,23 +445,7 @@ namespace Nop.Web.Controllers
                                 ? _customerService.GetCustomerByUsername(model.Username)
                                 : _customerService.GetCustomerByEmail(model.Email);
 
-                            //migrate shopping cart
-                            _shoppingCartService.MigrateShoppingCart(_workContext.CurrentCustomer, customer, true);
-
-                            //sign in new customer
-                            _authenticationService.SignIn(customer, model.RememberMe);
-
-                            //raise event       
-                            _eventPublisher.Publish(new CustomerLoggedinEvent(customer));
-
-                            //activity log
-                            _customerActivityService.InsertActivity(customer, "PublicStore.Login",
-                                _localizationService.GetResource("ActivityLog.PublicStore.Login"), customer);
-
-                            if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
-                                return RedirectToRoute("Homepage");
-
-                            return Redirect(returnUrl);
+                            return _customerRegistrationService.SignInCustomer(customer, returnUrl, model.RememberMe);
                         }
                     case CustomerLoginResults.MultiFactorAuthenticationRequired:
                         {
