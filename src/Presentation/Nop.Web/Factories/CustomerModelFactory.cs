@@ -994,7 +994,7 @@ namespace Nop.Web.Factories
             providerModel.SystemName = sysName;
             providerModel.Description = multiFactorAuthenticationProvider.Description;
             providerModel.LogoUrl = _multiFactorAuthenticationPluginManager.GetPluginLogoUrl(multiFactorAuthenticationProvider);
-            providerModel.ViewComponentName = isLogin ? multiFactorAuthenticationProvider.GetLoginViewComponentName(): multiFactorAuthenticationProvider.GetPublicViewComponentName();
+            providerModel.ViewComponentName = isLogin ? multiFactorAuthenticationProvider.GetVerificationViewComponentName(): multiFactorAuthenticationProvider.GetPublicViewComponentName();
             providerModel.Selected = sysName == selectedProvider;
 
             return providerModel;
