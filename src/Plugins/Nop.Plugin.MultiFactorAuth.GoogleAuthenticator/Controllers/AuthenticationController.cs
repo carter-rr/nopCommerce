@@ -105,6 +105,10 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Controllers
                     _notificationService.ErrorNotification(_localizationService.GetResource("Plugins.MultiFactorAuth.GoogleAuthenticator.Token.Unsuccessful"));
                 }
             }
+            else
+            {
+                _notificationService.ErrorNotification(_localizationService.GetResource("Plugins.MultiFactorAuth.GoogleAuthenticator.Record.Notfound"));
+            }
 
             return RedirectToRoute("MultiFactorVerification");
         }
