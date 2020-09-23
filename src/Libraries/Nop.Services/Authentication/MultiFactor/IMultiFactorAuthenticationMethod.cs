@@ -1,5 +1,4 @@
-﻿using Microsoft.Azure.Storage.Blob.Protocol;
-using Nop.Services.Plugins;
+﻿using Nop.Services.Plugins;
 
 namespace Nop.Services.Authentication.MultiFactor
 {
