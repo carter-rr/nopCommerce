@@ -104,7 +104,8 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator
                 ["Plugins.MultiFactorAuth.GoogleAuthenticator.Fields.Code.Required"] = "Field cannot be empty. Enter the code from the Google Authenticator app no your mobile phone.",
                 ["Plugins.MultiFactorAuth.GoogleAuthenticator.Fields.Code.Wrong"] = "Field must be 6 digits. Enter the code from the Google Authenticator app no your mobile phone.",
                 ["Plugins.MultiFactorAuth.GoogleAuthenticator.Token.Unsuccessful"] = "Invalid token or its lifetime has expired.",
-                ["Plugins.MultiFactorAuth.GoogleAuthenticator.Token.Successful"] = "Configuration of Google Authenticator for current customer saved successful."
+                ["Plugins.MultiFactorAuth.GoogleAuthenticator.Token.Successful"] = "Configuration of Google Authenticator for current customer saved successful.",
+                ["Plugins.MultiFactorAuth.GoogleAuthenticator.Record.Notfound"] = "Failed to match user credentials to active authentication provider settings record."
             });
 
             base.Install();
