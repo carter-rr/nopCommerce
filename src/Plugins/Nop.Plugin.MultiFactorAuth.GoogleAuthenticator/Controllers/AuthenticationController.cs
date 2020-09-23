@@ -109,6 +109,8 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Controllers
                 var isValidToken = _googleAuthenticatorService.ValidateTwoFactorToken(record.SecretKey, model.Token);
                 if (isValidToken)
                 {
+                    HttpContext.Session.Set<CustomerMultiFactorAuthenticationInfo>(NopCustomerDefaults.CustomerMultiFactorAuthenticationInfo, null);
+
                     //migrate shopping cart
                     _shoppingCartService.MigrateShoppingCart(_workContext.CurrentCustomer, customer, true);
 
