@@ -29,6 +29,7 @@ namespace Nop.Services.Customers
         private readonly IMultiFactorAuthenticationPluginManager _multiFactorAuthenticationPluginManager;
         private readonly INewsLetterSubscriptionService _newsLetterSubscriptionService;
         private readonly IRewardPointService _rewardPointService;
+        private readonly IStoreContext _storeContext;
         private readonly IStoreService _storeService;
         private readonly IWorkContext _workContext;
         private readonly IWorkflowMessageService _workflowMessageService;
@@ -47,6 +48,7 @@ namespace Nop.Services.Customers
             IMultiFactorAuthenticationPluginManager multiFactorAuthenticationPluginManager,
             INewsLetterSubscriptionService newsLetterSubscriptionService,
             IRewardPointService rewardPointService,
+            IStoreContext storeContext,
             IStoreService storeService,
             IWorkContext workContext,
             IWorkflowMessageService workflowMessageService,
@@ -61,6 +63,7 @@ namespace Nop.Services.Customers
             _multiFactorAuthenticationPluginManager = multiFactorAuthenticationPluginManager;
             _newsLetterSubscriptionService = newsLetterSubscriptionService;
             _rewardPointService = rewardPointService;
+            _storeContext = storeContext;
             _storeService = storeService;
             _workContext = workContext;
             _workflowMessageService = workflowMessageService;
@@ -157,7 +160,7 @@ namespace Nop.Services.Customers
                     var selectedProvider = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute);
                     if (!string.IsNullOrEmpty(selectedProvider))
                     {
-                        var method = _multiFactorAuthenticationPluginManager.LoadPluginBySystemName(selectedProvider);
+                        var method = _multiFactorAuthenticationPluginManager.LoadPluginBySystemName(selectedProvider, customer, _storeContext.CurrentStore.Id);
                         var methodIsActive = _multiFactorAuthenticationPluginManager.IsPluginActive(method);
 
                         if (methodIsActive)
