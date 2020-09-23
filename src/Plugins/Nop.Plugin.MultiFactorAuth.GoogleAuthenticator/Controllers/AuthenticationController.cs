@@ -2,16 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
 using Nop.Core.Domain.Customers;
-using Nop.Core.Events;
 using Nop.Core.Http.Extensions;
 using Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Models;
 using Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Services;
-using Nop.Services.Authentication;
 using Nop.Services.Customers;
 using Nop.Services.Localization;
-using Nop.Services.Logging;
 using Nop.Services.Messages;
-using Nop.Services.Orders;
 using Nop.Web.Framework.Controllers;
 
 namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Controllers
@@ -23,13 +19,10 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Controllers
 
         private readonly CustomerSettings _customerSettings;
         private readonly GoogleAuthenticatorService _googleAuthenticatorService;
-        private readonly IAuthenticationService _authenticationService;
-        private readonly ICustomerActivityService _customerActivityService;
+        private readonly ICustomerRegistrationService _customerRegistrationService;
         private readonly ICustomerService _customerService;
-        private readonly IEventPublisher _eventPublisher;
         private readonly ILocalizationService _localizationService;
         private readonly INotificationService _notificationService;
-        private readonly IShoppingCartService _shoppingCartService;
         private readonly IWorkContext _workContext;
 
         #endregion
@@ -38,24 +31,18 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Controllers
         public AuthenticationController(
             CustomerSettings customerSettings,
             GoogleAuthenticatorService googleAuthenticatorService,
-            IAuthenticationService authenticationService,
-            ICustomerActivityService customerActivityService,
+            ICustomerRegistrationService customerRegistrationService,
             ICustomerService customerService,
-            IEventPublisher eventPublisher,
             ILocalizationService localizationService,
             INotificationService notificationService,
-            IShoppingCartService shoppingCartService,
             IWorkContext workContext)
         {
             _customerSettings = customerSettings;
             _googleAuthenticatorService = googleAuthenticatorService;
-            _authenticationService = authenticationService;
-            _customerActivityService = customerActivityService;
+            _customerRegistrationService = customerRegistrationService;
             _customerService = customerService;
-            _eventPublisher = eventPublisher;
             _localizationService = localizationService;
             _notificationService = notificationService;
-            _shoppingCartService = shoppingCartService;
             _workContext = workContext;
         }
 
@@ -111,23 +98,7 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Controllers
                 {
                     HttpContext.Session.Set<CustomerMultiFactorAuthenticationInfo>(NopCustomerDefaults.CustomerMultiFactorAuthenticationInfo, null);
 
-                    //migrate shopping cart
-                    _shoppingCartService.MigrateShoppingCart(_workContext.CurrentCustomer, customer, true);
-
-                    //sign in new customer
-                    _authenticationService.SignIn(customer, isPersist);
-
-                    //raise event       
-                    _eventPublisher.Publish(new CustomerLoggedinEvent(customer));
-
-                    //activity log
-                    _customerActivityService.InsertActivity(customer, "PublicStore.Login",
-                        _localizationService.GetResource("ActivityLog.PublicStore.Login"), customer);
-
-                    if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
-                        return RedirectToRoute("Homepage");
-
-                    return Redirect(returnUrl);
+                    return _customerRegistrationService.SignInCustomer(customer, returnUrl, isPersist);
                 }
                 else
                 {
