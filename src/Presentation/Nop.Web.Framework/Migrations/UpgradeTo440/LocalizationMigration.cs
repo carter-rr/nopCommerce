@@ -227,7 +227,8 @@ namespace Nop.Web.Framework.Migrations.UpgradeTo440
                 ["Account.MultiFactorAuthentication.Fields.IsEnabled"] = "Is enabled",
                 ["Account.MultiFactorAuthentication.Settings"] = "Settings",
                 ["Account.MultiFactorAuthentication.Providers"] = "Authentication providers",
-                ["Account.MultiFactorAuthentication.Providers.NoActive"] = "No active providers"
+                ["Account.MultiFactorAuthentication.Providers.NoActive"] = "No active providers",
+                ["Account.MultiFactorAuthentication.Description"] = "<p>To activate multi-factor authentication for your account, you need: </p></br><ol><li>1. Activate the 'Is enabled' setting.</li><li>2. Choose one of the multi-factor authentication providers.</li><li>3. Save.</li><li>4. Configure the selected multi-factor authentication provider by following the instructions on the individual settings page of the selected provider.</li></ol></br><p> WARNING. After saving the selected provider, be sure to configure it, otherwise you will be denied access the next time you try to enter your account.</p>"
                 //</MFA #475>
 
             });
