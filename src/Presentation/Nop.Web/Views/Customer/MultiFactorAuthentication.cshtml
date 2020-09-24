@@ -35,6 +35,9 @@
         }
     </div>
     <div class="page-body">
+        <div class="description">
+            @T("Account.MultiFactorAuthentication.Description")
+        </div>
          <form asp-route="MultiFactorAuthenticationSettings" method="post">
             <div class="fieldset">
                 <div class="title">
@@ -48,26 +51,23 @@
                     </div>
                 </div>
             </div>
-            @if (Model.IsEnabled)
-            {
-                 <div class="fieldset">
-                    <div class="title">
-                        <strong>@T("Account.MultiFactorAuthentication.Providers")</strong>
-                    </div>
-                    <div class="form-fields">
-                        <div class="section payment-method">
-                            @if (Model.Providers.Count > 0)
-                            {
-                                @await Html.PartialAsync("_MultiFactorAuthenticationProviders", Model.Providers)
-                            }
-                            else
-                            {
-                                @T("Account.MultiFactorAuthentication.Providers.NoActive")
-                            }
-                        </div>                        
-                    </div>
-                 </div>
-            }
+            <div class="fieldset">
+                <div class="title">
+                    <strong>@T("Account.MultiFactorAuthentication.Providers")</strong>
+                </div>
+                <div class="form-fields">
+                    <div class="section payment-method">
+                        @if (Model.Providers.Count > 0)
+                        {
+                            @await Html.PartialAsync("_MultiFactorAuthenticationProviders", Model.Providers)
+                        }
+                        else
+                        {
+                            @T("Account.MultiFactorAuthentication.Providers.NoActive")
+                        }
+                    </div>                        
+                </div>
+            </div>
             
             <div class="buttons">
                 <input type="submit" id="save-mfa-settings-button" value="@T("Common.Save")" name="save-mfa-settsing-button" class="button-1 save-customer-mfa-button" />
