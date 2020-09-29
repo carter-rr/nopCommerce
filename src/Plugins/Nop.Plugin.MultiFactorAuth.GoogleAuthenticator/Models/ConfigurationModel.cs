@@ -22,6 +22,9 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Models
         [NopResourceDisplayName("Plugins.MultiFactorAuth.GoogleAuthenticator.QRPixelsPerModule")]
         public int QRPixelsPerModule { get; set; }
 
+        [NopResourceDisplayName("Plugins.MultiFactorAuth.GoogleAuthenticator.BusinessPrefix")]
+        public string BusinessPrefix { get; set; }
+
         public GoogleAuthenticatorSearchModel GoogleAuthenticatorSearchModel { get; set; }
 
         #endregion

@@ -36,7 +36,7 @@ namespace Nop.Services.Authentication.MultiFactor
         /// <param name="customer">Filter by customer; pass null to load all plugins</param>
         /// <param name="storeId">Filter by store; pass 0 to load all plugins</param>
         /// <returns>True - if active multi-factor authentication methods</returns>
-        public virtual bool IsActivePlugins(Customer customer = null, int storeId = 0)
+        public virtual bool HasActivePlugins(Customer customer = null, int storeId = 0)
         {
             return LoadActivePlugins(_multiFactorAuthenticationSettings.ActiveAuthenticationMethodSystemNames, customer, storeId).Any();
         }

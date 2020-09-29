@@ -805,7 +805,7 @@ namespace Nop.Web.Factories
                 });
             }
 
-            if (_multiFactorAuthenticationPluginManager.IsActivePlugins())
+            if (_multiFactorAuthenticationPluginManager.HasActivePlugins())
             {
                 model.CustomerNavigationItems.Add(new CustomerNavigationItemModel
                 {
@@ -961,8 +961,9 @@ namespace Nop.Web.Factories
         public virtual MultiFactorAuthenticationModel PrepareMultiFactorAuthenticationModel(MultiFactorAuthenticationModel model)
         {            
             var customer = _workContext.CurrentCustomer;
-            
-            model.IsEnabled = _genericAttributeService.GetAttribute<bool>(customer, NopCustomerDefaults.MultiFactorAuthenticationIsEnabledAttribute);
+
+            model.IsEnabled = !string.IsNullOrEmpty(
+                _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute));
             
             var multiFactorAuthenticationProviders = _multiFactorAuthenticationPluginManager.LoadActivePlugins(customer, _storeContext.CurrentStore.Id).ToList();            
             foreach (var multiFactorAuthenticationProvider in multiFactorAuthenticationProviders)

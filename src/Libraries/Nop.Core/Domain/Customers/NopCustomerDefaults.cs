@@ -271,11 +271,6 @@
         public static string EuCookieLawAcceptedAttribute => "EuCookieLaw.Accepted";
 
         /// <summary>
-        /// Gets a name of generic attribute to store the value of 'MultiFactorIsEnabled' 
-        /// </summary>
-        public static string MultiFactorAuthenticationIsEnabledAttribute => "MultiFactorIsEnabled";
-
-        /// <summary>
         /// Gets a name of generic attribute to store the value of 'SelectedMultiFactorAuthProvider'
         /// </summary>
         public static string SelectedMultiFactorAuthenticationProviderAttribute => "SelectedMultiFactorAuthProvider";

@@ -11,5 +11,10 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator
         /// Gets or sets the number of pixels per module
         /// </summary>
         public int QRPixelsPerModule { get; set; }
+
+        /// <summary>
+        /// Gets or sets business prefix
+        /// </summary>
+        public string BusinessPrefix { get; set; }
     }
 }

@@ -492,7 +492,7 @@ namespace Nop.Web.Controllers
         /// <returns>User verification page for Multi-factor authentication. Served by an authentication provider.</returns>
         public virtual IActionResult MultiFactorVerification()
         {
-            if (!_multiFactorAuthenticationPluginManager.IsActivePlugins())
+            if (!_multiFactorAuthenticationPluginManager.HasActivePlugins())
                 return RedirectToRoute("Login");
 
             var customerMultiFactorAuthenticationInfo = HttpContext.Session.Get<CustomerMultiFactorAuthenticationInfo>(NopCustomerDefaults.CustomerMultiFactorAuthenticationInfo);
@@ -504,11 +504,9 @@ namespace Nop.Web.Controllers
             if (customer == null)
                 return RedirectToRoute("HomePage");
 
-            var enabledCustomerMultiFactorAuthentication = _genericAttributeService.GetAttribute<bool>(customer, NopCustomerDefaults.MultiFactorAuthenticationIsEnabledAttribute);
-            if (!enabledCustomerMultiFactorAuthentication)
-                return RedirectToRoute("HomePage");
-
             var selectedProvider = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute);
+            if (string.IsNullOrEmpty(selectedProvider))
+                return RedirectToRoute("HomePage");
 
             var model = new MultiFactorAuthenticationProviderModel();
             model = _customerModelFactory.PrepareMultiFactorAuthenticationProviderModel(model, selectedProvider, true);
@@ -1844,7 +1842,7 @@ namespace Nop.Web.Controllers
         [CheckAccessClosedStore(true)]
         public virtual IActionResult MultiFactorAuthentication()
         {
-            if (!_multiFactorAuthenticationPluginManager.IsActivePlugins())
+            if (!_multiFactorAuthenticationPluginManager.HasActivePlugins())
             {
                 return RedirectToRoute("CustomerInfo");
             }
@@ -1867,22 +1865,30 @@ namespace Nop.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     //save MultiFactorIsEnabledAttribute
-                    _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.MultiFactorAuthenticationIsEnabledAttribute, model.IsEnabled);
-
-                    //save selected multi-factor authentication provider
-                    var selectedProvider = ParseSelectedProvider(form);
-                    var lastSavedProvider = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute);
-                    if (string.IsNullOrEmpty(selectedProvider) && !string.IsNullOrEmpty(lastSavedProvider))
+                    if (!model.IsEnabled)
                     {
-                        selectedProvider = lastSavedProvider;
-                    }
-
-                    if (selectedProvider != lastSavedProvider)
-                    {
-                        _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute, selectedProvider);
+                        _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute, string.Empty);
 
                         //raise change multi-factor authentication provider event       
                         _eventPublisher.Publish(new CustomerChangeMultiFactorAuthenticationProviderEvent(customer));
+                    }
+                    else
+                    {
+                        //save selected multi-factor authentication provider
+                        var selectedProvider = ParseSelectedProvider(form);
+                        var lastSavedProvider = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute);
+                        if (string.IsNullOrEmpty(selectedProvider) && !string.IsNullOrEmpty(lastSavedProvider))
+                        {
+                            selectedProvider = lastSavedProvider;
+                        }
+
+                        if (selectedProvider != lastSavedProvider)
+                        {
+                            _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute, selectedProvider);
+
+                            //raise change multi-factor authentication provider event       
+                            _eventPublisher.Publish(new CustomerChangeMultiFactorAuthenticationProviderEvent(customer));
+                        }
                     }
 
                     return RedirectToRoute("MultiFactorAuthenticationSettings");
