@@ -33,6 +33,7 @@ namespace Nop.Services.Customers
         private readonly ILocalizationService _localizationService;
         private readonly IMultiFactorAuthenticationPluginManager _multiFactorAuthenticationPluginManager;
         private readonly INewsLetterSubscriptionService _newsLetterSubscriptionService;
+        private readonly INotificationService _notificationService;
         private readonly IRewardPointService _rewardPointService;
         private readonly IShoppingCartService _shoppingCartService;
         private readonly IStoreContext _storeContext;
@@ -55,6 +56,7 @@ namespace Nop.Services.Customers
             ILocalizationService localizationService,
             IMultiFactorAuthenticationPluginManager multiFactorAuthenticationPluginManager,
             INewsLetterSubscriptionService newsLetterSubscriptionService,
+            INotificationService notificationService,
             IRewardPointService rewardPointService,
             IShoppingCartService shoppingCartService,
             IStoreContext storeContext,
@@ -73,6 +75,7 @@ namespace Nop.Services.Customers
             _localizationService = localizationService;
             _multiFactorAuthenticationPluginManager = multiFactorAuthenticationPluginManager;
             _newsLetterSubscriptionService = newsLetterSubscriptionService;
+            _notificationService = notificationService;
             _rewardPointService = rewardPointService;
             _shoppingCartService = shoppingCartService;
             _storeContext = storeContext;
@@ -164,21 +167,21 @@ namespace Nop.Services.Customers
                 return CustomerLoginResults.WrongPassword;
             }
 
-            if (_multiFactorAuthenticationPluginManager.IsActivePlugins())
+            var selectedProvider = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute);
+            if (_multiFactorAuthenticationPluginManager.HasActivePlugins())
             {
-                var enabledCustomerMultiFactorAuthentication = _genericAttributeService.GetAttribute<bool>(customer, NopCustomerDefaults.MultiFactorAuthenticationIsEnabledAttribute);
-                if (enabledCustomerMultiFactorAuthentication)
+                if (!string.IsNullOrEmpty(selectedProvider))
                 {
-                    var selectedProvider = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute);
-                    if (!string.IsNullOrEmpty(selectedProvider))
-                    {
-                        var method = _multiFactorAuthenticationPluginManager.LoadPluginBySystemName(selectedProvider, customer, _storeContext.CurrentStore.Id);
-                        var methodIsActive = _multiFactorAuthenticationPluginManager.IsPluginActive(method);
+                    var method = _multiFactorAuthenticationPluginManager.LoadPluginBySystemName(selectedProvider, customer, _storeContext.CurrentStore.Id);
+                    var methodIsActive = _multiFactorAuthenticationPluginManager.IsPluginActive(method);
 
-                        if (methodIsActive)
-                            return CustomerLoginResults.MultiFactorAuthenticationRequired;
-                    }
+                    if (methodIsActive)
+                        return CustomerLoginResults.MultiFactorAuthenticationRequired;
                 }
+            }
+            else if (!string.IsNullOrEmpty(selectedProvider))
+            {
+                _notificationService.WarningNotification(_localizationService.GetResource("MultiFactorAuthentication.Notification.SelectedMethodIsNotActive"));
             }
 
             //update login details

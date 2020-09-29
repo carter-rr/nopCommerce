@@ -70,8 +70,8 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Controllers
             //prepare model
             var model = new ConfigurationModel
             {
-                QRPixelsPerModule = _googleAuthenticatorSettings.QRPixelsPerModule
-                
+                QRPixelsPerModule = _googleAuthenticatorSettings.QRPixelsPerModule,
+                BusinessPrefix = _googleAuthenticatorSettings.BusinessPrefix                
             };
             model.GoogleAuthenticatorSearchModel.HideSearchBlock = _genericAttributeService
                 .GetAttribute<bool>(_workContext.CurrentCustomer, GoogleAuthenticatorDefaults.HideSearchBlockAttribute);
@@ -90,6 +90,7 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Controllers
 
             //set new settings values
             _googleAuthenticatorSettings.QRPixelsPerModule = model.QRPixelsPerModule;
+            _googleAuthenticatorSettings.BusinessPrefix = model.BusinessPrefix;
             _settingService.SaveSetting(_googleAuthenticatorSettings);
 
             _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));

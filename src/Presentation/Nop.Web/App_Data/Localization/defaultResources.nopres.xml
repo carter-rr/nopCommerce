@@ -16434,6 +16434,9 @@
   <LocaleResource Name="Messages.Order.TotalDiscount">
     <Value>Discount:</Value>
   </LocaleResource>
+  <LocaleResource Name="MultiFactorAuthentication.Notification.SelectedMethodIsNotActive">
+    <Value>The multi-factor authentication provider specified in your account settings has been deactivated. Please contact your administrator.</Value>
+  </LocaleResource>
   <LocaleResource Name="News">
     <Value>News</Value>
   </LocaleResource>

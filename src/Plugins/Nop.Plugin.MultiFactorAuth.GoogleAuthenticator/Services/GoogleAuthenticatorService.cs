@@ -17,8 +17,8 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Services
 
         private readonly IRepository<GoogleAuthenticatorRecord> _repository;
         private readonly IStaticCacheManager _staticCacheManager;
-        private readonly IStoreContext _storeContext;
         private readonly IWorkContext _workContext;
+        private readonly GoogleAuthenticatorSettings _googleAuthenticatorSettings;
         private TwoFactorAuthenticator _twoFactorAuthenticator;
         
 
@@ -29,13 +29,13 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Services
         public GoogleAuthenticatorService(
             IRepository<GoogleAuthenticatorRecord> repository,
             IStaticCacheManager staticCacheManager,
-            IStoreContext storeContext,
-            IWorkContext workContext)
+            IWorkContext workContext,
+            GoogleAuthenticatorSettings googleAuthenticatorSettings)
         {
             _repository = repository;
             _staticCacheManager = staticCacheManager;
-            _storeContext = storeContext;
             _workContext = workContext;
+            _googleAuthenticatorSettings = googleAuthenticatorSettings;
         }
         #endregion
 
@@ -185,9 +185,9 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator.Services
         public SetupCode GenerateSetupCode(string secretkey)
         {
             return TwoFactorAuthenticator.GenerateSetupCode(
-                _storeContext.CurrentStore.CompanyName, 
+                _googleAuthenticatorSettings.BusinessPrefix, 
                 _workContext.CurrentCustomer.Email, 
-                secretkey, false, GoogleAuthenticatorDefaults.DefaultQRPixelsPerModule);
+                secretkey, false, _googleAuthenticatorSettings.QRPixelsPerModule);
         }
 
         /// <summary>

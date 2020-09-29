@@ -228,6 +228,8 @@ namespace Nop.Web.Framework.Migrations.UpgradeTo440
 
                 ["Permission.Authentication.ManageMultifactorMethods"] = "Admin area. Manage Multi-factor Authentication Methods",
 
+                ["MultiFactorAuthentication.Notification.SelectedMethodIsNotActive"] = "The multi-factor authentication provider specified in your account settings has been deactivated. Please contact your administrator.",
+
                 ["PageTitle.MultiFactorAuthentication"] = "Multi-factor authentication",
                 ["PageTitle.MultiFactorVerification"] = "Multi-factor verification",
                 ["Account.MultiFactorAuthentication.Fields.IsEnabled"] = "Is enabled",

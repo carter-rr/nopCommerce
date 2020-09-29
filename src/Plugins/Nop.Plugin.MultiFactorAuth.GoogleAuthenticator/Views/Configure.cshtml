@@ -12,6 +12,15 @@
                 @Html.Raw(string.Format(T("Plugins.MultiFactorAuth.GoogleAuthenticator.Instructions").Text, webHelper.GetStoreLocation()))
                 <div class="form-group">                    
                     <div class="col-md-3">
+                        <nop-label asp-for="BusinessPrefix" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="BusinessPrefix" />
+                        <span asp-validation-for="BusinessPrefix"></span>
+                    </div>
+                </div>
+                <div class="form-group">                    
+                    <div class="col-md-3">
                         <nop-label asp-for="QRPixelsPerModule" />
                     </div>
                     <div class="col-md-9">
@@ -79,11 +88,6 @@
                         {
                             Title = T("Plugins.MultiFactorAuth.GoogleAuthenticator.Fields.Customer").Text
                         },
-                        new ColumnProperty(nameof(GoogleAuthenticatorModel.SecretKey))
-                        {
-                            Title = T("Plugins.MultiFactorAuth.GoogleAuthenticator.Fields.SecretKey").Text,
-                            Width = "200",
-                        },  
                         new ColumnProperty(nameof(GoogleAuthenticatorModel.Id))
                         {
                             Title = T("Admin.Common.Delete").Text,
