@@ -168,17 +168,9 @@ namespace Nop.Services.Customers
             }
 
             var selectedProvider = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute);
-            if (_multiFactorAuthenticationPluginManager.HasActivePlugins())
-            {
-                if (!string.IsNullOrEmpty(selectedProvider))
-                {
-                    var method = _multiFactorAuthenticationPluginManager.LoadPluginBySystemName(selectedProvider, customer, _storeContext.CurrentStore.Id);
-                    var methodIsActive = _multiFactorAuthenticationPluginManager.IsPluginActive(method);
-
-                    if (methodIsActive)
-                        return CustomerLoginResults.MultiFactorAuthenticationRequired;
-                }
-            }
+            var methodIsActive = _multiFactorAuthenticationPluginManager.IsPluginActive(selectedProvider, customer, _storeContext.CurrentStore.Id);
+            if (methodIsActive)
+                return CustomerLoginResults.MultiFactorAuthenticationRequired;
             else if (!string.IsNullOrEmpty(selectedProvider))
             {
                 _notificationService.WarningNotification(_localizationService.GetResource("MultiFactorAuthentication.Notification.SelectedMethodIsNotActive"));

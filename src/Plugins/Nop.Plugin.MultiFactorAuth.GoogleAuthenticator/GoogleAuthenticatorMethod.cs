@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Nop.Core;
 using Nop.Services.Authentication.MultiFactor;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
@@ -19,6 +20,7 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator
         private readonly IActionContextAccessor _actionContextAccessor;
         private readonly ILocalizationService _localizationService;
         private readonly ISettingService _settingService;
+        private readonly IStoreContext _storeContext;
         private readonly IUrlHelperFactory _urlHelperFactory;
 
         #endregion
@@ -28,11 +30,13 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator
         public GoogleAuthenticatorMethod(IActionContextAccessor actionContextAccessor,
             ILocalizationService localizationService,
             ISettingService settingService,
+            IStoreContext storeContext,
             IUrlHelperFactory urlHelperFactory)
         {
             _actionContextAccessor = actionContextAccessor;
             _localizationService = localizationService;
             _settingService = settingService;
+            _storeContext = storeContext;
             _urlHelperFactory = urlHelperFactory;
         }
 
@@ -74,6 +78,7 @@ namespace Nop.Plugin.MultiFactorAuth.GoogleAuthenticator
             //settings
             _settingService.SaveSetting(new GoogleAuthenticatorSettings()
             {
+                BusinessPrefix = _storeContext.CurrentStore.Name,
                 QRPixelsPerModule = GoogleAuthenticatorDefaults.DefaultQRPixelsPerModule
             });
 
